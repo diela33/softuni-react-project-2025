@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "react-router-dom": "^7.4.1"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  }
+}

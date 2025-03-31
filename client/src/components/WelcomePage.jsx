@@ -1,36 +1,61 @@
-import React from 'react';
-import './WelcomePage.css'; // Импортиране на стиловия файл
+import React, { useState } from 'react';
+import '../styles/WelcomePage.css';
 
 function WelcomePage() {
+    const [isGuest, setIsGuest] = useState(false); // Състояние за отметката guest
+
+
+    const handleGuestToggle = () => {
+        setIsGuest((prev) => !prev); // Превключваме състоянието
+    };
+
     return (
-        <section className="welcome-page">
-            <header id="box">
-                <div id="navigation">
-                    <h1 className="home">
-                        <a href="#">Top Recipes</a>
-                    </h1>
-                    <nav>
-                        <div id="guest">
-                            <a href="/login">Login</a>
-                            <a href="/register">Register</a>
-                        </div>
-                        <div id="user">
-                            <a href="/create-recipe">Create Recipe</a>
-                            <a href="/logout">Logout</a>
-                        </div>
-                        <a href="/recipes">All Recipes</a>
-                    </nav>
-                </div>
+
+        <section className="login-form">
+            <header>
+                <h2>Top Recipes from The Kitchen</h2>
+                <h1 className="form-title">Login Form</h1>
             </header>
-            <main>
-                <h2>Welcome to the World of Recipes!</h2>
-                <p>Discover new recipes, share your creations, and explore the culinary delights of others.</p>
-                <div className="actions">
-                    <button className="btn btn-primary" onClick={() => window.location.href = '/login'}>Login</button>
-                    <button className="btn btn-secondary" onClick={() => window.location.href = '/register'}>Register</button>
-                    <button className="btn btn-success" onClick={() => window.location.href = '/recipes'}>Browse Recipes</button>
+            <div className="tabs">
+                <button className="active-tab">Login</button>
+                <button>Signup</button>
+            </div>
+            <form>
+                <label htmlFor="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                />
+                <label htmlFor="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                />
+                <div className="guest-checkbox">
+                    <input
+                        type="checkbox"
+                        id="guest"
+                        checked={isGuest}
+                        onChange={handleGuestToggle}
+                    />
+                    <label htmlFor="guest">Login as Guest</label>
                 </div>
-            </main>
+                <a href="/forgot-password" className="forgot-link">
+                    Forgot password?
+                </a>
+                <button type="submit" className="login-button">
+                    {isGuest ? 'Continue as Guest' : 'Login'}
+                </button>
+            </form>
+            <footer>
+                <p>
+                    Not a member? <a href="/register">Signup now</a>
+                </p>
+            </footer>
         </section>
     );
 }
