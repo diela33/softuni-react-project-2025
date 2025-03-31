@@ -6,14 +6,14 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #6a11cb, #ff80ff); /* Лилаво към розово */
-    color: white; /* Контрастен текст */
+    background: linear-gradient(135deg, #6a11cb, #ff80ff); 
+    color: white; 
 }
 
 /* Основен контейнер за формата */
 .login-form {
     background: rgba(255, 255, 255, 0.15); /* Прозрачност */
-    backdrop-filter: blur(10px); /* Размазване на задния фон за модерност */
+    backdrop-filter: blur(10px); 
     padding: 30px;
     border-radius: 15px;
     width: 400px;
@@ -44,7 +44,7 @@ body {
 }
 
 .active-tab {
-    background: linear-gradient(135deg, #6a11cb, #ff80ff); /* Градиент за активен таб */
+    background: linear-gradient(135deg, #6a11cb, #ff80ff); 
     border-radius: 20px;
     padding: 10px 20px;
 }
@@ -83,7 +83,7 @@ input::placeholder {
 
 .guest-checkbox input {
     margin-right: 10px;
-    transform: scale(1.2); /* Увеличен размер за удобство */
+    transform: scale(1.2); 
 }
 
 .guest-checkbox label {
@@ -91,7 +91,7 @@ input::placeholder {
     color: white;
 }
 
-/* Линк към "Forgot password?" */
+
 .forgot-link {
     color: #ff80ff;
     font-size: 12px;
@@ -105,7 +105,7 @@ input::placeholder {
 
 /* Бутон за вход */
 .login-button {
-    background: linear-gradient(135deg, #6a11cb, #ff80ff); /* Градиент за бутона */
+    background: linear-gradient(135deg, #6a11cb, #ff80ff);
     color: white;
     border: none;
     padding: 10px;
@@ -116,7 +116,7 @@ input::placeholder {
 }
 
 .login-button:hover {
-    background: linear-gradient(135deg, #ff80ff, #6a11cb); /* Обратен градиент при задържане */
+    background: linear-gradient(135deg, #ff80ff, #6a11cb); 
 }
 
 footer {
@@ -132,5 +132,5 @@ footer a {
 }
 
 footer a:hover {
-    color: #ffffff; /* Бял цвят при задържане */
+    color: #ffffff; 
 }
