@@ -1,11 +1,9 @@
+import React from 'react';
 
 
 function App() {
     return (
-        <h2>
-            klk
-        </h2>
-
+        <h1>jkjkj</h1>
     );
 }
 
