@@ -1,0 +1,26 @@
+.jumbotron {
+    background-color: #9b6fa7;
+    color: white;
+    margin: 0.5rem;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  #add-recipe-button {
+    display: block;
+    margin: 20px auto;
+    background-color: #c9a9ff;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  #add-recipe-button:hover {
+    background-color: #b28ce8;
+    transform: scale(1.05);
+  }
+  
