@@ -8,6 +8,7 @@ import AddRecipeForm from "../src/components/Navbar/AddRecipeForm/AddRecipeForm"
 import EditRecipeForm from "../src/components/Navbar/EditRecipeForm/EditRecipeForm";
 import LoginForm from "../src/components/Navbar/LoginForm/LoginForm";
 import RegisterForm from "../src/components/Navbar/RegisterForm/RegisterForm";
+import PrivateRoute from "../src/components/Navbar/PrivateRoute/PrivateRoute";
 
 const App = () => {
     return (
@@ -19,9 +20,24 @@ const App = () => {
                 <Route path="/catalog" element={<RecipeCard />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/register" element={<RegisterForm />} />
+
                 {/* Частни маршрути */}
-                <Route path="/add-recipe" element={<AddRecipeForm />} />
-                <Route path="/edit-recipe/:id" element={<EditRecipeForm />} />
+                <Route
+                    path="/add-recipe"
+                    element={
+                        <PrivateRoute>
+                            <AddRecipeForm />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/edit-recipe/:id"
+                    element={
+                        <PrivateRoute>
+                            <EditRecipeForm />
+                        </PrivateRoute>
+                    }
+                />
             </Routes>
             <Footer />
         </div>
