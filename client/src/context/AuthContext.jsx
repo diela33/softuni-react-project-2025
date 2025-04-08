@@ -5,34 +5,39 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    try {
-      const storedUser = localStorage.getItem("userData");
-      return storedUser ? JSON.parse(storedUser) : null;
-    } catch (error) {
-      console.error("Error loading user data:", error);
-      return null;
-    }
+    const storedUser = localStorage.getItem("userData");
+    return storedUser ? JSON.parse(storedUser) : null;
   });
 
   const navigate = useNavigate();
 
-  const login = (userData) => {
+  const login = async (credentials) => {
     try {
+      const response = await fetch("http://localhost:3030/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Server Error");
+      }
+
+      const userData = await response.json();
       setUser(userData);
       localStorage.setItem("userData", JSON.stringify(userData));
+      navigate("/"); // Пренасочване след успешен вход
     } catch (error) {
-      console.error("Error saving user data:", error);
+      console.error("Login error:", error);
+      throw error;
     }
   };
 
   const logout = () => {
-    try {
-      setUser(null);
-      localStorage.removeItem("userData");
-      navigate("/login");
-    } catch (error) {
-      console.error("Error clearing user data:", error);
-    }
+    setUser(null);
+    localStorage.removeItem("userData");
+    navigate("/login"); // Пренасочване след изход
   };
 
   useEffect(() => {
@@ -49,3 +54,4 @@ const AuthProvider = ({ children }) => {
 };
 
 export { AuthProvider };
+

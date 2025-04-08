@@ -8,6 +8,12 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    name === "email" ? setEmail(value) : setPassword(value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,23 +22,9 @@ const LoginForm = () => {
         throw new Error("All fields are required!");
       }
 
-      const response = await fetch("http://localhost:3030/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err.message || "Login failed!");
-      }
-
-      const data = await response.json();
-      login({ email: data.email, id: data._id, token: data.accessToken });
-      alert("Successfully logged in!");
-      navigate("/");
+      await login({ email, password });
     } catch (error) {
-      alert(error.message || "Unexpected error occurred!");
+      setError(error.message || "Unexpected error occurred!");
     }
   };
 
@@ -40,6 +32,7 @@ const LoginForm = () => {
     <section id="form-login" className="view-section">
       <form className="text-center border border-light p-5" onSubmit={handleSubmit}>
         <h1>Login</h1>
+        {error && <p className="error-message">{error}</p>}
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -49,7 +42,7 @@ const LoginForm = () => {
             placeholder="Email"
             name="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
           />
         </div>
         <div className="form-group">
@@ -61,7 +54,7 @@ const LoginForm = () => {
             placeholder="Password"
             name="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleChange}
           />
         </div>
         <button type="submit" className="btn btn-primary">Login</button>
@@ -71,3 +64,4 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+

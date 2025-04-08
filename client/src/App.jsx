@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "../src/components/Navbar/Navbar/Navbar";
 import HomePage from "../src/components/Navbar/HomePage/HomePage";
 import RecipeCard from "../src/components/Navbar/RecipeCard/RecipeCard";
@@ -9,41 +9,39 @@ import EditRecipeForm from "../src/components/Navbar/EditRecipeForm/EditRecipeFo
 import LoginForm from "../src/components/Navbar/LoginForm/LoginForm";
 import RegisterForm from "../src/components/Navbar/RegisterForm/RegisterForm";
 import PrivateRoute from "../src/components/Navbar/PrivateRoute/PrivateRoute";
+import { AuthContext } from "../src/context/AuthContext";
 
 const App = () => {
-    return (
-        <div style={{ backgroundColor: "rgb(195, 179, 197)" }}>
-            <Navbar />
-            <Routes>
-                {/* Публични маршрути */}
-                <Route path="/" element={<HomePage />} />
-                <Route path="/catalog" element={<RecipeCard />} />
-                <Route path="/login" element={<LoginForm />} />
-                <Route path="/register" element={<RegisterForm />} />
+  const { user } = useContext(AuthContext);
 
-                {/* Частни маршрути */}
-                <Route
-                    path="/add-recipe"
-                    element={
-                        <PrivateRoute>
-                            <AddRecipeForm />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/edit-recipe/:id"
-                    element={
-                        <PrivateRoute>
-                            <EditRecipeForm />
-                        </PrivateRoute>
-                    }
-                />
-            </Routes>
-            <Footer />
-        </div>
-    );
+  return (
+    <div style={{ backgroundColor: "rgb(195, 179, 197)" }}>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/catalog" element={<RecipeCard />} />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <LoginForm />} />
+        <Route path="/register" element={user ? <Navigate to="/" /> : <RegisterForm />} />
+        <Route
+          path="/add-recipe"
+          element={
+            <PrivateRoute>
+              <AddRecipeForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/edit-recipe/:id"
+          element={
+            <PrivateRoute>
+              <EditRecipeForm />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+      <Footer />
+    </div>
+  );
 };
 
 export default App;
-
-
