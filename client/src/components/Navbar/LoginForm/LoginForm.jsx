@@ -1,30 +1,25 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
   const [error, setError] = useState(null);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    name === "email" ? setEmail(value) : setPassword(value);
-  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (email === "" || password === "") {
-        throw new Error("All fields are required!");
-      }
+    setError(null);
 
+    try {
+      setIsSubmitting(true);
       await login({ email, password });
-    } catch (error) {
-      setError(error.message || "Unexpected error occurred!");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -40,9 +35,8 @@ const LoginForm = () => {
             type="email"
             className="form-control"
             placeholder="Email"
-            name="email"
             value={email}
-            onChange={handleChange}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="form-group">
@@ -52,16 +46,16 @@ const LoginForm = () => {
             type="password"
             className="form-control"
             placeholder="Password"
-            name="password"
             value={password}
-            onChange={handleChange}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn btn-primary">Login</button>
+        <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+          {isSubmitting ? "Logging in..." : "Login"}
+        </button>
       </form>
     </section>
   );
 };
 
 export default LoginForm;
-

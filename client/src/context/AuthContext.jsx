@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("userData");
     return storedUser ? JSON.parse(storedUser) : null;
@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Server Error");
+        throw new Error(errorData.message || "Login failed!");
       }
 
       const userData = await response.json();
@@ -34,6 +34,29 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (credentials) => {
+    try {
+      const response = await fetch("http://localhost:3030/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Registration failed!");
+      }
+
+      const userData = await response.json();
+      setUser(userData);
+      localStorage.setItem("userData", JSON.stringify(userData));
+      navigate("/"); // Пренасочване след успешна регистрация
+    } catch (error) {
+      console.error("Registration error:", error);
+      throw error;
+    }
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("userData");
@@ -41,18 +64,15 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Позволява на гости да остават на HomePage
-    if (!user && (window.location.pathname === "/add-recipe" || window.location.pathname === "/edit-recipe/:id")) {
+    // Уверява се, че гостите нямат достъп до частни страници
+    if (!user && (window.location.pathname === "/add-recipe" || window.location.pathname.includes("/edit-recipe"))) {
       navigate("/login");
     }
   }, [user, navigate]);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export { AuthProvider };
-
