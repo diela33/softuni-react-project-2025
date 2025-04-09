@@ -41,7 +41,8 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!user && window.location.pathname !== "/login" && window.location.pathname !== "/register") {
+    // Позволява на гости да остават на HomePage
+    if (!user && (window.location.pathname === "/add-recipe" || window.location.pathname === "/edit-recipe/:id")) {
       navigate("/login");
     }
   }, [user, navigate]);

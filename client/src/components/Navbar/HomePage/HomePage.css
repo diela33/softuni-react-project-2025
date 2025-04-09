@@ -1,26 +1,98 @@
+/* Jumbotron стил */
 .jumbotron {
-    background-color: #9b6fa7;
-    color: white;
-    margin: 0.5rem;
-  }
-  
-  .text-center {
-    text-align: center;
-  }
-  
-  #add-recipe-button {
-    display: block;
-    margin: 20px auto;
-    background-color: #c9a9ff;
-    color: white;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-  }
-  
-  #add-recipe-button:hover {
-    background-color: #b28ce8;
-    transform: scale(1.05);
-  }
-  
+  background-color: #9b6fa7; /* Фон за акцент */
+  color: white; /* Бял текст */
+  margin: 0.5rem; /* Отстояние на секцията */
+}
+
+/* Центриране на текстовите заглавия */
+.text-center {
+  text-align: center;
+}
+
+/* Бутон за добавяне на рецепти */
+#add-recipe-button {
+  display: block; /* Центриране на бутона */
+  margin: 20px auto; /* Отстояние отгоре и отдолу */
+  background-color: #c9a9ff; /* Цветен фон за бутона */
+  color: white; /* Бял текст */
+  font-weight: bold; /* Изразен текст */
+  padding: 10px 20px; /* Просторен бутон */
+  border-radius: 8px; /* Заоблени краища */
+  transition: all 0.3s ease; /* Ефекти при задържане на курсора */
+}
+
+#add-recipe-button:hover {
+  background-color: #b28ce8; /* По-тъмен нюанс при hover */
+  transform: scale(1.05); /* Леко увеличение при hover */
+}
+
+/* Контейнер за целия списък с карти */
+#recipe .card-deck {
+  display: grid; /* Активира Grid Layout */
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); /* Максимум 4 карти на ред */
+  gap: 20px; /* Разстояние между картите */
+  justify-content: center; /* Центриране на картите */
+  padding: 20px; /* Отстояние от границите на контейнера */
+}
+
+/* Визуализация на всяка карта */
+#recipe .card {
+  min-width: 18rem;
+  max-width: 18rem; /* Фиксиране на ширината на картата */
+  margin: auto; /* Центриране на всяка карта */
+  border: 1px solid #ddd; /* Рамка около картата */
+  border-radius: 10px; /* Заоблени ъгли */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Лека сянка */
+  overflow: hidden; /* Подреждане на съдържанието вътре */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Ефект при задържане на курсора */
+  background-color: #fff; /* Бял фон за картите */
+}
+
+/* При задържане на курсора над карта */
+#recipe .card:hover {
+  transform: translateY(-10px); /* Леко издигане */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* По-силна сянка */
+}
+
+/* Снимката в картата */
+.card-img-top {
+  width: 100%; /* Снимката запълва ширината на картата */
+  height: 15vw; /* Адаптира височината спрямо ширината */
+  object-fit: cover; /* Запазва пропорциите */
+}
+
+/* Тяло на картата (текст, описание) */
+.card .card-body {
+  padding: 15px;
+  text-align: center; /* Центриране на текста */
+}
+
+/* Заглавие на рецептата */
+.card .card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333; /* Тъмно-сив текст */
+}
+
+/* Кратко описание */
+.card .card-text {
+  font-size: 0.9rem;
+  color: #666; /* Среден нюанс на сивото */
+}
+
+/* Бутон за детайли */
+.card .btn-info {
+  background-color: #17a2b8;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.card .btn-info:hover {
+  background-color: #138496; /* По-тъмен нюанс */
+}
