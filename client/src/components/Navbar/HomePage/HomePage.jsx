@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./HomePage.css";
-import { AuthContext } from "../../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext"; // Импортиране на AuthContext
 import { useNavigate } from "react-router-dom";
 
-const HomePage = ({ showDetails }) => {
-  const { user } = useContext(AuthContext);
-  const [recipes, setRecipes] = useState([]);
-  const [error, setError] = useState(null);
+const HomePage = () => {
+  const { user } = useContext(AuthContext); // Информация за логнатия потребител
+  const [recipes, setRecipes] = useState([]); // Държи данните за рецептите
+  const [error, setError] = useState(null); // Държи съобщения за грешки
   const navigate = useNavigate();
 
+  // Функция за извличане на рецепти
   const fetchRecipes = async () => {
     try {
       const response = await fetch("http://localhost:3030/jsonstore/toprecipes");
@@ -18,19 +19,19 @@ const HomePage = ({ showDetails }) => {
       }
 
       const data = await response.json();
-      setRecipes(Object.values(data));
+      setRecipes(Object.values(data)); // Запазване на данните
     } catch (error) {
-      setError(error.message);
+      setError(error.message); // Настройване на грешката
     }
   };
 
   useEffect(() => {
-    fetchRecipes();
+    fetchRecipes(); // Извличане на данните при първоначално зареждане
   }, []);
 
   const handleRedirect = () => {
     console.log("Redirecting to /add-recipe");
-    navigate("/add-recipe");
+    navigate("/add-recipe"); // Навигация към страницата за добавяне на рецепта
   };
 
   return (
@@ -41,6 +42,7 @@ const HomePage = ({ showDetails }) => {
       </div>
       <h1 className="text-center">Top Recipes</h1>
 
+      {/* Показване на бутон "Add Recipe", само ако потребителят е логнат */}
       {user && (
         <section id="add-recipe-button" className="user">
           <button id="createLink" className="btn btn-warning" onClick={handleRedirect}>
@@ -49,8 +51,9 @@ const HomePage = ({ showDetails }) => {
         </section>
       )}
 
+      {/* Секция за списък с рецепти */}
       <section id="recipe">
-        {error && <p className="error-message">{error}</p>}
+        {error && <p className="error-message" style={{ color: "red" }}>{error}</p>}
         <div className="mt-3">
           <div className="row d-flex flex-wrap justify-content-center">
             {recipes.length > 0 ? (
@@ -71,10 +74,11 @@ const HomePage = ({ showDetails }) => {
                       </p>
                     </div>
                     <div className="card-footer">
+                      {/* Бутон "Details", който пренасочва към /details/:id */}
                       <button
                         type="button"
                         className="btn btn-info"
-                        onClick={() => showDetails(recipe._id)}
+                        onClick={() => navigate(`/details/${recipe._id}`)} // Пренасочване
                       >
                         Details
                       </button>
@@ -93,3 +97,5 @@ const HomePage = ({ showDetails }) => {
 };
 
 export default HomePage;
+
+

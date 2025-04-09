@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const EditRecipeForm = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Вземане на ID от URL
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ title: "", description: "", img: "" });
   const [error, setError] = useState(null);
@@ -20,13 +20,12 @@ const EditRecipeForm = () => {
         setError(err.message);
       }
     };
-
     fetchRecipe();
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -98,4 +97,5 @@ const EditRecipeForm = () => {
 };
 
 export default EditRecipeForm;
+
 

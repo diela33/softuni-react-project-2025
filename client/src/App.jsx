@@ -10,6 +10,7 @@ import LoginForm from "../src/components/Navbar/LoginForm/LoginForm";
 import RegisterForm from "../src/components/Navbar/RegisterForm/RegisterForm";
 import PrivateRoute from "../src/components/Navbar/PrivateRoute/PrivateRoute";
 import { AuthContext } from "../src/context/AuthContext";
+import RecipeDetails from "../src/components/Navbar/RecipeDetails/RecipeDetails"; 
 
 const App = () => {
   const { user } = useContext(AuthContext);
@@ -22,6 +23,9 @@ const App = () => {
         <Route path="/catalog" element={<RecipeCard />} />
         <Route path="/login" element={user ? <Navigate to="/" /> : <LoginForm />} />
         <Route path="/register" element={user ? <Navigate to="/" /> : <RegisterForm />} />
+        <Route path="/details/:id" element={<RecipeDetails />} />
+        <Route path="/edit-recipe/:id" element={<EditRecipeForm />} />
+
         <Route
           path="/add-recipe"
           element={
@@ -45,4 +49,3 @@ const App = () => {
 };
 
 export default App;
-

@@ -1,10 +1,10 @@
 .navbar {
-    background-color: #343a40;
-    margin: 0.5rem;
-  }
-  
-  .navbar-brand,
-  .nav-link {
-    color: white !important;
-  }
+  background-color: #343a40;
+  margin: 0.5rem;
+}
+
+.navbar-brand,
+.nav-link {
+  color: white !important;
+}
   
