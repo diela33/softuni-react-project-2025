@@ -18,13 +18,10 @@ const App = () => {
     <div style={{ backgroundColor: "rgb(195, 179, 197)" }}>
       <Navbar />
       <Routes>
-        {/* Началната страница е достъпна за всички */}
         <Route path="/" element={<HomePage />} />
         <Route path="/catalog" element={<RecipeCard />} />
         <Route path="/login" element={user ? <Navigate to="/" /> : <LoginForm />} />
         <Route path="/register" element={user ? <Navigate to="/" /> : <RegisterForm />} />
-        
-        {/* Частни маршрути */}
         <Route
           path="/add-recipe"
           element={

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./HomePage.css";
 import { AuthContext } from "../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = ({ showDetails }) => {
   const { user } = useContext(AuthContext);
   const [recipes, setRecipes] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const fetchRecipes = async () => {
     try {
@@ -26,6 +28,11 @@ const HomePage = ({ showDetails }) => {
     fetchRecipes();
   }, []);
 
+  const handleRedirect = () => {
+    console.log("Redirecting to /add-recipe");
+    navigate("/add-recipe");
+  };
+
   return (
     <section id="home-page" className="view-section">
       <div className="jumbotron jumbotron-fluid text-light">
@@ -36,7 +43,7 @@ const HomePage = ({ showDetails }) => {
 
       {user && (
         <section id="add-recipe-button" className="user">
-          <button id="createLink" className="btn btn-warning" onClick={() => console.log("Redirect to Add Recipe form")}>
+          <button id="createLink" className="btn btn-warning" onClick={handleRedirect}>
             Add Recipe
           </button>
         </section>
@@ -50,12 +57,6 @@ const HomePage = ({ showDetails }) => {
               <ul id="recipes-list" className="card-deck">
                 {recipes.map((recipe) => (
                   <li key={recipe._id} className="card mb-4">
-                    {/* <img
-                      className="card-img-top"
-                      src={recipe.img}
-                      alt={recipe.title}
-                      width="400"
-                    /> */}
                     <img
                       className="card-img-top recipe-img"
                       src={recipe.img}
@@ -82,8 +83,8 @@ const HomePage = ({ showDetails }) => {
                 ))}
               </ul>
             ) : (
-                <p className="text-center">No recipes available.</p>
-              )}
+              <p className="text-center">No recipes available.</p>
+            )}
           </div>
         </div>
       </section>
@@ -92,5 +93,3 @@ const HomePage = ({ showDetails }) => {
 };
 
 export default HomePage;
-
-
