@@ -50,11 +50,16 @@ const HomePage = ({ showDetails }) => {
               <ul id="recipes-list" className="card-deck">
                 {recipes.map((recipe) => (
                   <li key={recipe._id} className="card mb-4">
-                    <img
+                    {/* <img
                       className="card-img-top"
                       src={recipe.img}
                       alt={recipe.title}
                       width="400"
+                    /> */}
+                    <img
+                      className="card-img-top recipe-img"
+                      src={recipe.img}
+                      alt={recipe.title}
                     />
                     <div className="card-body">
                       <h4 className="card-title">{recipe.title}</h4>
@@ -77,8 +82,8 @@ const HomePage = ({ showDetails }) => {
                 ))}
               </ul>
             ) : (
-              <p className="text-center">No recipes available.</p>
-            )}
+                <p className="text-center">No recipes available.</p>
+              )}
           </div>
         </div>
       </section>

@@ -30,42 +30,52 @@
 /* Контейнер за целия списък с карти */
 #recipe .card-deck {
   display: grid; /* Активира Grid Layout */
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); /* Максимум 4 карти на ред */
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); /* Адаптиране до 4 карти на ред */
   gap: 20px; /* Разстояние между картите */
-  justify-content: center; /* Центриране на картите */
-  padding: 20px; /* Отстояние от границите на контейнера */
+  justify-content: center; /* Центриране на всички карти */
+  max-width: 80rem; /* Ограничение на максималната ширина */
+  margin: 0 auto; /* Центриране в страницата */
+  padding: 20px; /* Отстояние от контейнера */
+  box-sizing: border-box; /* Правилно изчисляване на ширината */
 }
 
 /* Визуализация на всяка карта */
 #recipe .card {
-  min-width: 18rem;
-  max-width: 18rem; /* Фиксиране на ширината на картата */
-  margin: auto; /* Центриране на всяка карта */
-  border: 1px solid #ddd; /* Рамка около картата */
-  border-radius: 10px; /* Заоблени ъгли */
+  width: 18rem; /* Ширина на картата */
+  margin: auto; /* Центриране */
+  border: 1px solid #ddd; /* Рамка */
+  border-radius: 10px; /* Заоблени краища */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Лека сянка */
-  overflow: hidden; /* Подреждане на съдържанието вътре */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Ефект при задържане на курсора */
-  background-color: #fff; /* Бял фон за картите */
+  overflow: hidden; /* Подреждане вътре в картата */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Ефект при hover */
+  background-color: #fff; /* Бял фон */
 }
 
-/* При задържане на курсора над карта */
 #recipe .card:hover {
-  transform: translateY(-10px); /* Леко издигане */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* По-силна сянка */
+  transform: scale(1.05); /* Увеличение при hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Засилване на сянката */
 }
 
-/* Снимката в картата */
+/* Снимка в картата */
 .card-img-top {
-  width: 100%; /* Снимката запълва ширината на картата */
-  height: 15vw; /* Адаптира височината спрямо ширината */
+  width: 100%; /* Запълва ширината */
+  height: 15vw; /* Адаптира височината */
   object-fit: cover; /* Запазва пропорциите */
+  border-radius: 8px; /* Заоблени краища */
 }
 
-/* Тяло на картата (текст, описание) */
+/* Снимка в карусела (редактиран клас за изображения) */
+.recipe-img {
+  width: 100%; /* Снимката запълва ширината */
+  height: 300px; /* Фиксирана височина */
+  object-fit: cover; /* Запазване на пропорциите */
+  border-radius: 8px; /* Заоблени ъгли */
+}
+
+/* Тяло на картата */
 .card .card-body {
   padding: 15px;
-  text-align: center; /* Центриране на текста */
+  text-align: center; /* Центриране */
 }
 
 /* Заглавие на рецептата */
