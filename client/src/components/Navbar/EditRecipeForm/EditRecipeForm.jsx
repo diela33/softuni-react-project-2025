@@ -4,13 +4,19 @@ import { useParams, useNavigate } from "react-router-dom";
 const EditRecipeForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ title: "", description: "", img: "" });
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    img: "",
+  });
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await fetch(`http://localhost:3030/jsonstore/toprecipes/${id}`);
+        const response = await fetch(
+          `http://localhost:3030/jsonstore/toprecipes/${id}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch recipe details.");
         }
@@ -35,14 +41,17 @@ const EditRecipeForm = () => {
     try {
       const userData = JSON.parse(localStorage.getItem("userData"));
 
-      const response = await fetch(`http://localhost:3030/jsonstore/toprecipes/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": userData.accessToken,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `http://localhost:3030/jsonstore/toprecipes/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Authorization": userData.accessToken,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update recipe.");
@@ -98,4 +107,3 @@ const EditRecipeForm = () => {
 };
 
 export default EditRecipeForm;
-

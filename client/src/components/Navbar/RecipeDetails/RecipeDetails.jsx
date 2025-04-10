@@ -1,21 +1,101 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const EditRecipeForm = () => {
+const RecipeDetails = () => {
   const { id } = useParams(); // Вземане на ID от URL
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ title: "", description: "", img: "" });
+  const [recipeData, setRecipeData] = useState({
+    title: "",
+    description: "",
+    img: "",
+  });
   const [error, setError] = useState(null);
+  const userData = JSON.parse(localStorage.getItem("userData")); //Вземане на user от localStorage
+
+  const handleRedirect = () => {
+    console.log("Redirecting to /edit-recipe");
+    navigate(`/edit-recipe/${recipeData._id}`); // Навигация към страницата за редактиране на рецепта
+  };
+
+  const deleteRecipe = async () => {
+    try {
+      const userData = JSON.parse(localStorage.getItem("userData"));
+
+      const response = await fetch(
+        `http://localhost:3030/jsonstore/toprecipes/${recipeData._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Authorization": userData.accessToken,
+          },
+          body: JSON.stringify(recipeData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete recipe.");
+      }
+      console.log("Recipe Deleted");
+
+      alert("Recipe deleted successfully!");
+      navigate(`/`);
+    } catch (err) {
+      console.error(err.message);
+      alert("Error: " + err.message);
+    }
+  };
+
+  const editButton = () => {
+    if (userData == null) return; // Проверка за логнат потребител
+
+    return (
+      <div>
+        {userData._id === recipeData._ownerId ? (
+          <button
+            id="edit-button"
+            className="text-center"
+            onClick={handleRedirect}
+          >
+            Edit Details
+          </button>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  };
+
+  const deleteButton = () => {
+    if (userData == null) return; // Проверка за логнат потребител
+    return (
+      <div>
+        {userData._id === recipeData._ownerId ? (
+          <button
+            id="delete-button"
+            className="text-center"
+            onClick={deleteRecipe}
+          >
+            Delete
+          </button>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  };
 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await fetch(`http://localhost:3030/jsonstore/toprecipes/${id}`);
+        const response = await fetch(
+          `http://localhost:3030/jsonstore/toprecipes/${id}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch recipe details.");
         }
         const data = await response.json();
-        setFormData(data);
+        setRecipeData(data);
       } catch (err) {
         setError(err.message);
       }
@@ -23,79 +103,26 @@ const EditRecipeForm = () => {
     fetchRecipe();
   }, [id]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const userData = JSON.parse(localStorage.getItem("userData"));
-
-      const response = await fetch(`http://localhost:3030/jsonstore/toprecipes/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": userData.accessToken,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update recipe.");
-      }
-
-      alert("Recipe updated successfully!");
-      navigate(`/details/${id}`);
-    } catch (err) {
-      console.error(err.message);
-      alert("Error: " + err.message);
-    }
-  };
-
   if (error) {
     return <p style={{ color: "red" }}>{error}</p>;
   }
 
   return (
-    <section id="edit-recipe" className="view-section">
-      <form onSubmit={handleSubmit}>
-        <h1>Edit Recipe</h1>
-        <div>
-          <label htmlFor="title">Title</label>
-          <input
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="img">Image URL</label>
-          <input
-            id="img"
-            name="img"
-            value={formData.img}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Save Changes</button>
-      </form>
+    <section id="details-recipe" className="view-section">
+      <div className="jumbotron jumbotron-fluid text-light">
+        <h1 className="display-4 text-center">Recipe Details</h1>
+      </div>
+      <h1 className="text-center">{recipeData.title}</h1>
+      <img
+        className="card-img-top"
+        src={recipeData.img}
+        alt={recipeData.title}
+      />
+      <p className="card-text text-center">{recipeData.description}</p>
+      {editButton()}
+      {deleteButton()}
     </section>
   );
 };
 
-export default EditRecipeForm;
-
-
+export default RecipeDetails;

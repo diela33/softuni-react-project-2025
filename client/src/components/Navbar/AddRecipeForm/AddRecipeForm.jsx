@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./AddRecipeForm.css";
 
 const AddRecipeForm = () => {
-  const [formData, setFormData] = useState({ title: "", description: "", img: "" });
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    img: "",
+  });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -28,14 +32,19 @@ const AddRecipeForm = () => {
         throw new Error("User is not authenticated!");
       }
 
-      const response = await fetch("http://localhost:3030/jsonstore/toprecipes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": userData.accessToken, // Correctly passing accessToken
-        },
-        body: JSON.stringify({ title, description, img }),
-      });
+      const _ownerId = userData._id;
+
+      const response = await fetch(
+        "http://localhost:3030/jsonstore/toprecipes",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Authorization": userData.accessToken, // Correctly passing accessToken
+          },
+          body: JSON.stringify({ title, description, img, _ownerId }),
+        }
+      );
 
       if (!response.ok) {
         const err = await response.json();
@@ -44,6 +53,7 @@ const AddRecipeForm = () => {
 
       const data = await response.json();
       console.log("New Recipe Added:", data);
+      console.log(userData._id);
 
       navigate("/");
     } catch (error) {
@@ -54,9 +64,17 @@ const AddRecipeForm = () => {
 
   return (
     <section id="add-recipe" className="view-section">
-      <form id="add-recipe-form" className="text-center border border-light p-5" onSubmit={handleSubmit}>
+      <form
+        id="add-recipe-form"
+        className="text-center border border-light p-5"
+        onSubmit={handleSubmit}
+      >
         <h1>Add Recipe</h1>
-        {error && <p className="error-message" style={{ color: "red" }}>{error}</p>}
+        {error && (
+          <p className="error-message" style={{ color: "red" }}>
+            {error}
+          </p>
+        )}
         <div className="form-group">
           <label htmlFor="title">Recipe Title</label>
           <input
@@ -92,7 +110,9 @@ const AddRecipeForm = () => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
       </form>
     </section>
   );
